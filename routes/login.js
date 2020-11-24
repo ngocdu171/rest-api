@@ -3,7 +3,7 @@ var router = express.Router();
 const bcrypt = require('bcrypt');
 var db = require('../database');
 
-router.post('/', function(request,response) {
+router.post('/', function(request, response) {
     if(request.body.username && request.body.password) {
         var username = request.body.username;
         var password = request.body.password;
@@ -13,11 +13,11 @@ router.post('/', function(request,response) {
                 bcrypt.compare(password, results.rows[0].password, function(err, res) {
                     if(res) {
                         console.log("success");
-                        res.send(true);
+                        response.send(true);
                     }
                     else {
                         console.log("wrong password");
-                        res.send(false);
+                        response.send(false);
                     }
                     response.end();
                 });
