@@ -46,7 +46,8 @@ router.put('/:id', function (req, res, next) {
     product.update(req.params.id, req.body, function (err, rows) {
         if (err) {
             res.json(err);
-        } else {
+        }
+        else {
             res.json(rows);
         }
     });
@@ -56,7 +57,8 @@ router.get('/name/:value?', function (req, res, next) {
     product.searchByName(req.params.value, function (err, rows) {
         if (err) {
             res.json(err);
-        } else {
+        }
+        else {
             res.json(rows.rows);
         }
     });

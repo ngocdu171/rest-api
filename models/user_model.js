@@ -16,7 +16,7 @@ var user = {
         });
     },
     delete: function(id, callback) {
-        return db.query('delete from user_table where id_user', [id], callback);
+        return db.query('delete from user_table where id_user=$1', [id], callback);
     },
     update: function(id, user, callback) {
         bcrypt.hash(user.password, saltRounds, function(err, hash) {

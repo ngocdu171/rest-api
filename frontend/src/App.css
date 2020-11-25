@@ -1,0 +1,216 @@
+html{
+  font-size: 62.5%; /* 16px * 62.5 = 10px = 1rem */
+  box-sizing: border-box;
+}
+body{
+  font: 1.6rem Helvetica;
+  height: 100vh;
+  margin: 0;
+}
+#root{
+  height: 100%;
+}
+.grid-container{
+  display: grid;
+  grid-template-areas:
+  "header"
+  "main"
+  "footer";
+  grid-template-columns: 1fr;
+  grid-template-rows: 5rem 1fr 5rem; /*chia ti le cho 3 phan header-main-footer*/
+  height: 100%;
+}
+
+/*        header       */
+.header{
+  grid-area: header;
+  background-color: #203040;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /*chinh noi dung ra giua theo chieu doc*/
+  padding: 0.5rem;
+}
+.brand a{
+  color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+.header-link a{
+  color: #ffffff;
+  text-decoration: none;
+  padding: 1rem;
+}
+.header-link a:hover{
+  color: #ff8000;
+}
+
+/*              main                       */
+.main{
+  grid-area: main;
+}
+
+.footer{
+  grid-area: footer;
+  background-color: #203040;
+  color: #ffffff;
+  display: flex;
+  justify-content: center; /*chinh noi dung ra giua theo chieu ngang*/
+  align-items: center;
+}
+
+a{
+  text-decoration: none; /* bo gach duoi */
+}
+a:hover{
+  color: #ff8000;
+}
+
+/*              HOME SCREEN               */
+.products{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.products li{
+  list-style-type: none; /* bo cham dau dong */
+  padding: 0;
+  flex: 0 1 34rem;
+  margin: 1rem;
+  height: 50rem;
+  border-bottom: .1rem #c0c0c0 solid; /* gach duoi */
+}
+.product{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.product-image{
+  max-width: 34rem;
+  max-height: 34rem;
+}
+.product-name{
+  font-size: 2rem;
+  font-weight: bold;
+}
+.product-brand{
+  font-size: 1.2rem;
+  columns: #808080;
+}
+.product-price{
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+.product-rating{
+  margin-bottom: 1rem;
+}
+
+/*               Product Detail                       */
+.back-to-homepage{
+  padding: 1rem;
+}
+.details{
+  display:  flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap; /* tu dong don noi dung theo chieu doc khi thu nho trinh duyet */
+  padding: 1rem;
+}
+
+.details-image{
+  flex: 2 1 60rem;
+}
+
+.details-image img{
+  max-width: 60rem;
+  widows: 100%;
+}
+
+.details-info{
+  flex: 1 1 30rem;
+}
+
+.details-action{
+  flex: 1 1 30rem;
+  border: .1rem black solid;
+  border-radius: .5rem;
+  background-color: #f0f0f0;
+  padding: 1rem;
+}
+
+.details-info ul, .details-action ul{
+  list-style-type: none;
+  padding: 0;
+}
+
+.details-info li, .details-action li{
+  margin-bottom: 1rem;
+}
+
+.details-action ul li:last-child{
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-Add-to-cart{
+  padding: 1rem;
+  border: .1rem #808080 solid;
+  border-radius: .5rem;
+  cursor: pointer;
+  background-color: #f0c040;
+}
+.btn-Add-to-cart:hover{
+  border: .1rem #404040 solid;
+}
+
+/* Form Log-In & Register */
+.form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.form-container{
+  display: flex;
+  flex-direction: column;
+  width: 32rem;
+  padding: 2rem;
+  border: .1rem #c0c0c0 solid;
+  border-radius: .5rem;
+  list-style-type: none;
+}
+.form-container li{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+.title{
+  text-align: center;
+  font-size: 4rem;
+  font-weight: bold;
+}
+input{
+  padding: 1rem;
+  border: .1rem #c0c0c0 solid;
+  border-radius: .5rem;
+}
+.btn-Signin{
+  background-color: #f0c040;
+  padding: 1rem;
+  border: .1rem #808080 solid;
+  cursor: pointer;
+}
+.btn-Register{
+  background-color: #f0f0f0;
+  padding: 1rem;
+  border: .1rem #808080 solid;
+  border-radius: .5rem;
+  text-align: center;
+}
+.btn-Register:hover{
+  color: #ff8000;
+}
