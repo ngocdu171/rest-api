@@ -1,9 +1,20 @@
+import Axios from 'axios';
 import React from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Login() {
-    function Login() {
-        alert("Login");
+    function Login(event) {
+        event.preventDefault();
+        const username = event.target['username'].value;
+        const password = event.target['password'].value;
+        if(username && password) {
+            Axios.post('http://localhost:3000/login',{username,password}).then(res => {
+            console.log(res);
+        })
+        }
+        else {
+            alert("enter your username & password!")
+        }
     }
     return (
         <div className="form">
