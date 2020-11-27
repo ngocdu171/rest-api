@@ -8,19 +8,26 @@ import Login from './components/Login';
 import ProductScreen from './components/ProductScreen';
 import Axios from 'axios';
 import Register from './components/Register';
+import myURL from './myURL';
 
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            products: []
+            products: [],
+            username: '',
+            Loggedin: false
         };
         this.getproduct=this.getproduct.bind(this);
         this.addCart=this.addCart.bind(this);
+        this.LoginSuccess=this.LoginSuccess.bind(this);
+        this.LoginFail=this.LoginFail.bind(this);
+        this.Logout=this.Logout.bind(this);
     }
     componentDidMount() {
-        Axios.get('http://localhost:3000/product').then(res => {
+        // Axios.get('http://localhost:3000/product').then(res => {
+        Axios.get(myURL+'/product').then(res => {
             this.setState({
                 products:res.data
             });
@@ -32,8 +39,12 @@ class App extends Component {
         return product;
     }
     addCart(quantity,product) {
+        const {id_product,name_product,image,price} = product;
         console.log("App-quantity: ", quantity);
-        console.log(product);
+        console.log("id_product:",id_product);
+        console.log("name_product:",name_product);
+        console.log("image:",image);
+        console.log("price:",price);
     }
     // addCart(event) {
     //     event.preventDefault();
@@ -41,8 +52,30 @@ class App extends Component {
     //     console.log(quantity);
     //     // console.log("APP: ", id);
     // }
+
+    LoginSuccess() {
+        this.setState({
+            username:localStorage.getItem("username"),
+            Loggedin: true
+        })
+        alert("Login Success!");
+    }
+
+    LoginFail() {
+        alert("wrong username or password!");
+    }
+
+    Logout() {
+        localStorage.removeItem("username");
+        localStorage.removeItem("password");
+        this.setState({
+            username:localStorage.removeItem("username"),
+            Loggedin: false
+        })
+    }
     
     render() {
+        console.log("hi",this.state.username);
         return (
             <div className="grid-container">
                 <header className="header">
@@ -51,7 +84,8 @@ class App extends Component {
                     </div>
                     <div className="header-link">
                         <Link to="/cart">Cart</Link>
-                        <Link to="/login">Login</Link>
+                        {this.state.Loggedin?<Link to="/" onClick={this.Logout}>Logout</Link>:<Link to="/login">Login</Link>}
+                        {this.state.Loggedin&&"Hi " + this.state.username}
                     </div>
                 </header>
                 <main>
@@ -60,12 +94,15 @@ class App extends Component {
                                                                         products={this.state.products}
                                                                     {...routeProps} />} />
                         <Route exact path="/product/:id" render={(routeProps) => <ProductScreen
+                                                                        Loggedin={this.state.Loggedin}
                                                                         getproduct={this.getproduct}
                                                                         addCart={this.addCart}
                                                                     {...routeProps} />} />
                         <Route exact path="/cart" render={(routeProps) => <Cart
                                                                     {...routeProps} />} />
                         <Route exact path="/login" render={(routeProps) => <Login
+                                                                        LoginSuccess={this.LoginSuccess}
+                                                                        LoginFail={this.LoginFail}
                                                                     {...routeProps} />} />
                         <Route exact path="/register" render={(routeProps) => <Register
                                                                     {...routeProps} />} />

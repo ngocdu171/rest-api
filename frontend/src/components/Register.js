@@ -1,6 +1,7 @@
 import Axios from 'axios';
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import myURL from '../myURL';
 
 export default function Register() {
     const [username, setusername] = useState('');
@@ -8,13 +9,13 @@ export default function Register() {
     function register (event) {
         event.preventDefault();
         if(username && password) {
-            Axios.get('http://localhost:3000/user').then(res => {
+            Axios.get(myURL+'/user').then(res => {
                 var checkusername = res.data.find(x => x.username === username)
                 if(checkusername) {
                     alert("username is exist!");
                 }
                 else {
-                    Axios.post('http://localhost:3000/user',{username,password}).then(res => {
+                    Axios.post('/user',{username,password}).then(res => {
                         alert("register success!")
                     })
                 }

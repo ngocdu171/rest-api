@@ -8,11 +8,17 @@ export default function ProductScreen(props) {
     const product = props.getproduct(id);
     console.log(product);
     function addToCart(event) {
-        event.preventDefault();
-        // console.log("ProductScreen: ", id);
-        // props.addCart(event.target['select'].value);
-        // console.log(Quantity);
-        props.addCart(Quantity,product);
+        if(props.Loggedin) {
+            event.preventDefault();
+            // console.log("ProductScreen: ", id);
+            // props.addCart(event.target['select'].value);
+            // console.log(Quantity);
+            props.addCart(Quantity,product);
+        }
+        else {
+            alert("You have to login!");
+            props.history.push('/login');
+        }
     }
     return (
         // <form onSubmit={props.addCart}>
