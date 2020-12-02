@@ -9,6 +9,7 @@ import ProductScreen from './components/ProductScreen';
 import Axios from 'axios';
 import Register from './components/Register';
 import myURL from './myURL';
+import AddProduct from './components/AddProduct';
 
 
 class App extends Component {
@@ -17,13 +18,15 @@ class App extends Component {
         this.state = {
             products: [],
             username: '',
-            Loggedin: false
+            Loggedin: false,
+            Carted: []
         };
         this.getproduct=this.getproduct.bind(this);
-        this.addCart=this.addCart.bind(this);
         this.LoginSuccess=this.LoginSuccess.bind(this);
         this.LoginFail=this.LoginFail.bind(this);
         this.Logout=this.Logout.bind(this);
+        this.deleteItem=this.deleteItem.bind(this);
+        this.addCart=this.addCart.bind(this);
     }
     componentDidMount() {
         // Axios.get('http://localhost:3000/product').then(res => {
@@ -33,19 +36,39 @@ class App extends Component {
             });
         });
     }
-    getproduct(id) {
+    getproduct(id_product) {
         let tempProducts = [...this.state.products];
-        const product = tempProducts.find(item=> item.id_product == id);
+        const product = tempProducts.find(item=> item.id_product == id_product);
         return product;
     }
-    addCart(quantity,product) {
-        const {id_product,name_product,image,price} = product;
-        console.log("App-quantity: ", quantity);
-        console.log("id_product:",id_product);
-        console.log("name_product:",name_product);
-        console.log("image:",image);
-        console.log("price:",price);
+    addCart(productadd) {
+        console.log(productadd);
+        let tempCarted = [...this.state.Carted];
+        let tam = tempCarted.filter(item => item.id_product !== productadd.id_product);
+        console.log(tempCarted);
+        if(tam) {
+            tam.push(productadd);
+            this.setState({
+                Carted: tam
+            })
+        }
+        else {
+            tempCarted.push(productadd);
+            this.setState({
+                Carted: tempCarted
+            })
+        }
+        // tempCarted.push(productadd);
+        // this.setState({
+        //     Carted: tempCarted
+        // })
+        // Axios.get(myURL + '/cart/'+ username).then(res =>{
+        //     this.setState({
+        //         Carted: res.data
+        //     })
+        // });
     }
+    
     // addCart(event) {
     //     event.preventDefault();
     //     var quantity = event.target['select'].value;
@@ -59,6 +82,11 @@ class App extends Component {
             Loggedin: true
         })
         alert("Login Success!");
+        Axios.get(myURL + '/user/'+ this.state.username).then(res =>{
+            this.setState({
+                userInfo: res.data
+            })
+        });
     }
 
     LoginFail() {
@@ -70,12 +98,20 @@ class App extends Component {
         localStorage.removeItem("password");
         this.setState({
             username:localStorage.removeItem("username"),
-            Loggedin: false
+            Loggedin: false,
+            Carted: [],
+        })
+    }
+
+    deleteItem(id_product) {
+        let tempCarted = this.state.Carted.filter(item => item.id_product !== id_product)
+        // console.log(tempCarted);
+        this.setState({
+            Carted: tempCarted
         })
     }
     
     render() {
-        console.log("hi",this.state.username);
         return (
             <div className="grid-container">
                 <header className="header">
@@ -84,8 +120,9 @@ class App extends Component {
                     </div>
                     <div className="header-link">
                         <Link to="/cart">Cart</Link>
+                        {this.state.username === 'ngocdu171'?<Link to="/add">{this.state.username}</Link>:this.state.username}
                         {this.state.Loggedin?<Link to="/" onClick={this.Logout}>Logout</Link>:<Link to="/login">Login</Link>}
-                        {this.state.Loggedin&&"Hi " + this.state.username}
+                        {/* this.state.Loggedin&&<Link to="/edit">{this.state.username}</Link> */}
                     </div>
                 </header>
                 <main>
@@ -94,17 +131,21 @@ class App extends Component {
                                                                         products={this.state.products}
                                                                     {...routeProps} />} />
                         <Route exact path="/product/:id" render={(routeProps) => <ProductScreen
-                                                                        Loggedin={this.state.Loggedin}
                                                                         getproduct={this.getproduct}
                                                                         addCart={this.addCart}
                                                                     {...routeProps} />} />
                         <Route exact path="/cart" render={(routeProps) => <Cart
+                                                                        Carted={this.state.Carted}
+                                                                        deleteItem={this.deleteItem}
                                                                     {...routeProps} />} />
                         <Route exact path="/login" render={(routeProps) => <Login
                                                                         LoginSuccess={this.LoginSuccess}
                                                                         LoginFail={this.LoginFail}
                                                                     {...routeProps} />} />
                         <Route exact path="/register" render={(routeProps) => <Register
+                                                                    {...routeProps} />} />
+                        <Route exact path="/add" render={(routeProps) => <AddProduct
+                                                                        username={this.state.username}
                                                                     {...routeProps} />} />
                         {/* <Route exact path="/product" component={ProductScreen} /> */}
                         <Route component={Default} />

@@ -1,24 +1,35 @@
-import React, { useState } from 'react'
+import Axios from 'axios';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import myURL from '../myURL';
 
 export default function ProductScreen(props) {
-    const [Quantity, setQuantity] = useState(1)
-    var id = props.match.params.id;
+    var id_product = props.match.params.id;
     // props.getproduct(id);
-    const product = props.getproduct(id);
-    console.log(product);
+    const product = props.getproduct(id_product);
+    const [quantity, setquantity] = useState(1);
+    const [productadd, setproductadd] = useState(product);
+    // console.log(product);
+    // const {name_product,category,image,price,brand,rating,numReviews,description,countinstock}=product;
+    // const {id_product,name_product,category,image,price,brand,rating,numReviews,description,countinstock}=product;
+    // const username = localStorage.getItem("username");
     function addToCart(event) {
-        if(props.Loggedin) {
             event.preventDefault();
             // console.log("ProductScreen: ", id);
             // props.addCart(event.target['select'].value);
             // console.log(Quantity);
-            props.addCart(Quantity,product);
-        }
-        else {
-            alert("You have to login!");
-            props.history.push('/login');
-        }
+            /////////////
+            // Axios.post(myURL + '/cart',{id_product,name_product,category,image,price,brand,rating,numReviews,description,countinstock,quantity,username}).then(res => {
+            //     alert("add success!");
+            // });
+            // setaddItem([id_product,name_product,image,price,quantity]);
+            // props.addCart(addItem);
+            // console.log(product, quantity);
+            productadd.quantity = quantity; //////////////add items to json object javascript
+            // setproductadd(productadd.push(quantity));
+            // console.log(productadd);
+            props.addCart(productadd);
+            props.history.push('/cart');
     }
     return (
         // <form onSubmit={props.addCart}>
@@ -49,13 +60,13 @@ export default function ProductScreen(props) {
                 <div className="details-action">
                     <ul>
                         <li>
-                            Price: {product.price}
+                            Price: {product.price * quantity}
                         </li>
                         <li>
-                            Status: {product.countInStock > 0 ?"In stock": "Out of Stock"}
+                            Status: {product.countinstock > 0 ?"In stock": "Out of Stock"}
                         </li>
                         <li>
-                            Qty: <select value={Quantity} onChange={(event)=> setQuantity(event.target.value)}>
+                            Qty: <select value={quantity} onChange={(event)=> setquantity(event.target.value)}>
                                     {[...Array(product.countinstock).keys()].map(x =>
                                         <option key={x+1} value={x + 1}>{x + 1}</option>
                                     )}
@@ -74,13 +85,3 @@ export default function ProductScreen(props) {
         // </form>
     )
 }
-
-// <li>
-//                             Qty: <select 
-//                                     value={qty}
-//                                     onChange={(event) => {setQty(event.target.value);}}>
-//                                     {[...Array(product.countInStock).keys()].map(x =>
-//                                         <option key={x+1} value={x + 1}>{x + 1}</option>
-//                                     )}
-//                             </select>
-//                         </li>

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 export default function HomeScreen(props) {
     const products = props.products;
-    console.log(products);
     return (
         <ul className="products">
             {products.map((product, index) =>

@@ -9,10 +9,13 @@ var user = {
     getById: function(id, callback) {
         return db.query('select * from user_table where id_user=$1', [id], callback);
     },
+    getByName: function(username, callback) {
+        return db.query('select * from user_table where username=$1', [username], callback);
+    },
     add: function(user, callback) {
         bcrypt.hash(user.password, saltRounds, function(err, hash) {
-            return db.query('insert into user_table(username,password) values($1,$2)',
-            [user.username,hash], callback);
+            return db.query('insert into user_table(username,password,email) values($1,$2,$3)',
+            [user.username,hash,user.email], callback);
         });
     },
     delete: function(id, callback) {
@@ -20,8 +23,8 @@ var user = {
     },
     update: function(id, user, callback) {
         bcrypt.hash(user.password, saltRounds, function(err, hash) {
-            return db.query('update user_table set username=$1, password=$2 where id_user=$3',
-        [user.username,hash, id], callback);
+            return db.query('update user_table set username=$1, password=$2, email=$3 where id_user=$4',
+        [user.username, hash, user.email, id], callback);
         });
     },
     searchByName: function(value, callback) {
