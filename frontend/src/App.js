@@ -135,6 +135,7 @@ class App extends Component {
                                                                         addCart={this.addCart}
                                                                     {...routeProps} />} />
                         <Route exact path="/cart" render={(routeProps) => <Cart
+                                                                        username={this.state.username}
                                                                         Carted={this.state.Carted}
                                                                         deleteItem={this.deleteItem}
                                                                     {...routeProps} />} />

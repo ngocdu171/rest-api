@@ -18,8 +18,13 @@ export default function Cart(props) {
         props.deleteItem(id_product);
     }
     function checkout() {
-        alert("You have to login!");
-        props.history.push('/login');
+        if(props.username) {
+            alert("next step");
+        }
+        else {
+            alert("You have to login!");
+            props.history.push('/login');
+        }
     }
     return (
         <div>
